@@ -15,6 +15,16 @@ export class AuthApp {
             this.handleSubmit();
         });
         this.toggleBtn.addEventListener('click', () => this.toggleMode());
+        const githubBtn = document.getElementById('github-login-btn');
+        githubBtn.addEventListener('click', () => this.signInWithGitHub());
+    }
+    async signInWithGitHub() {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'github',
+            options: { redirectTo: window.location.origin },
+        });
+        if (error)
+            this.errorEl.textContent = error.message;
     }
     toggleMode() {
         this.mode = this.mode === 'login' ? 'signup' : 'login';
