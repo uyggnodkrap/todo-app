@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>할 일 목록</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>할 일 목록</h1>
+
+    <section class="input-section">
+      <form id="todo-form">
+        <input
+          id="todo-input"
+          type="text"
+          placeholder="할 일을 입력하세요..."
+          autocomplete="off"
+        >
+<button type="submit">추가</button>
+      </form>
+    </section>
+
+    <section class="list-section">
+      <p id="empty-message">아직 할 일이 없습니다.</p>
+      <ul id="todo-list"></ul>
+    </section>
+  </main>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "@supabase/supabase-js": "https://esm.sh/@supabase/supabase-js@2"
+      }
+    }
+  </script>
+  <script type="module" src="dist/app.js"></script>
+</body>
+</html>
