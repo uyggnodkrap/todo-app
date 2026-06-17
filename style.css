@@ -236,6 +236,43 @@ h1 {
   color: #4f46e5;
 }
 
+.social-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0 1rem;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+.social-divider::before,
+.social-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.social-btn {
+  width: 100%;
+  padding: 0.625rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.social-btn:hover {
+  opacity: 0.85;
+}
+
+.github-btn {
+  background-color: #24292e;
+  color: #ffffff;
+  border: none;
+}
+
 /* Todo header with logout */
 
 .todo-header {
