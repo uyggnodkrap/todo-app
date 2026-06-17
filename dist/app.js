@@ -1,4 +1,5 @@
 import { supabase } from './supabase.js';
+import { AuthApp } from './auth.js';
 const PRIORITY_ORDER = {
     "매우 중요": 0,
     "중요": 1,
@@ -7,6 +8,7 @@ const PRIORITY_ORDER = {
 class TodoApp {
     constructor() {
         this.todos = [];
+        this.userId = '';
         this.form = document.getElementById("todo-form");
         this.input = document.getElementById("todo-input");
         this.list = document.getElementById("todo-list");
@@ -20,10 +22,14 @@ class TodoApp {
                 this.input.focus();
             }
         });
-        this.init();
     }
-    async init() {
+    async setUser(userId) {
+        this.userId = userId;
         await this.load();
+        this.render();
+    }
+    clear() {
+        this.todos = [];
         this.render();
     }
     async load() {
@@ -103,6 +109,7 @@ class TodoApp {
             completed: false,
             priority: "보통",
             created_at: new Date(createdAt).toISOString(),
+            user_id: this.userId,
         });
         if (error) {
             console.error('addTodo error:', error.message);
@@ -155,5 +162,27 @@ class TodoApp {
     }
 }
 document.addEventListener("DOMContentLoaded", () => {
-    new TodoApp();
+    const authSection = document.getElementById('auth-section');
+    const todoSection = document.getElementById('todo-section');
+    const userEmailEl = document.getElementById('user-email');
+    const logoutBtn = document.getElementById('logout-btn');
+    new AuthApp();
+    const todoApp = new TodoApp();
+    logoutBtn.addEventListener('click', async () => {
+        await supabase.auth.signOut();
+    });
+    supabase.auth.onAuthStateChange((event, session) => {
+        var _a;
+        if (session) {
+            authSection.style.display = 'none';
+            todoSection.style.display = '';
+            userEmailEl.textContent = (_a = session.user.email) !== null && _a !== void 0 ? _a : '';
+            todoApp.setUser(session.user.id);
+        }
+        else {
+            authSection.style.display = '';
+            todoSection.style.display = 'none';
+            todoApp.clear();
+        }
+    });
 });
