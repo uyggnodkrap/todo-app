@@ -37,7 +37,7 @@ export class AuthApp {
   private async signInWithGitHub(): Promise<void> {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
-      options: { redirectTo: window.location.origin },
+      options: { redirectTo: window.location.origin + window.location.pathname },
     });
     if (error) this.errorEl.textContent = error.message;
   }
